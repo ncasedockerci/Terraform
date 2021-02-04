@@ -1,24 +1,23 @@
-provider "aws" {
-  version = "2.33.0"
-
-  region = var.aws_region
-}
-
-provider "random" {
-  version = "2.2"
-}
-
-resource "random_pet" "table_name" {}
-
-resource "aws_dynamodb_table" "tfc_example_table" {
-  name = "${var.db_table_name}-${random_pet.table_name.id}"
-
-  read_capacity  = var.db_read_capacity
-  write_capacity = var.db_write_capacity
-  hash_key       = "UUID"
-
-  attribute {
-    name = "UUID"
-    type = "S"
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 2.70"
+    }
   }
+}
+
+provider "aws" {
+  profile = "default"
+  region  = "us-east-1"
+}
+
+resource "aws_instance" "NGINX" {
+  ami           = "ami-08d70e59c07c61a3a"
+  instance_type = "t2.nano"
+}
+
+resource "aws_eip" "ip" {
+  vpc      = true
+  instance = aws_instance.NGINX.id
 }
