@@ -13,7 +13,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "NGINX" {
-  ami           = "ami-08d70e59c07c61a3a"
+  ami           = "ami-0b34567fc2d4a7e3a"
   instance_type = "t2.nano"
 }
 
